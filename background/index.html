@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>OA in the PNW</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Meta data for share links -->
+    <meta property="og:title" content="Background on Ocean Acidification Vulnerability Assessment"/>
+    <meta property="og:url" content="https://briangkatz.github.io/oa/background/"/>
+    <meta property="og:description" content="Background about a research project on vulnerability and adaptation of Pacific Northwest shellfisheries to ocean acidification."/>
+    <meta property="og:image" content="img/oyster_hand.jpg"/>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/sb-admin.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="dist/storymap.css">
+    <link rel="stylesheet" href="css/main.css"/>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/oyster_favicon.ico" type="image/x-icon">
+
+    <!-- JavaScript libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/1.3.4/chroma.min.js"></script>
+<!--    <script type="text/javascript" src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>-->
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
+    <script src="https://unpkg.com/rbush@2.0.1/rbush.min.js"></script>
+    <script src="https://unpkg.com/labelgun@6.0.0/lib/labelgun.min.js"></script>
+    <script src="dist/storymap.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://d3js.org/d3-color.v1.min.js"></script>
+    <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script src="https://dc-js.github.io/dc.js/js/crossfilter.js"></script>
+    <script src="https://dc-js.github.io/dc.js/js/dc.js"></script>
+</head>
+<body>
+
+<!--    &lt;!&ndash;Navbar&ndash;&gt;-->
+<!--    <nav class="navbar navbar-expand-xl navbar-dark bg-dark fixed-top storymap-navbar" id="mainNav">-->
+<!--        <a class="navbar-brand text-left" id="title-text" href="index.html">Background on Ocean Acidification</a>-->
+<!--        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--            <span class="navbar-toggler-icon"></span>-->
+<!--        </button>-->
+
+<!--        &lt;!&ndash;SideNav&ndash;&gt;-->
+<!--        <div class="collapse navbar-collapse" id="navbarResponsive">-->
+<!--            <ul class="navbar-nav navbar-nav-scenes ml-auto"></ul>-->
+<!--            &lt;!&ndash;Responsive Nav Items - Docked on Top Nav or Inside Nav Menu&ndash;&gt;-->
+<!--            <ul class="navbar-nav ml-auto">-->
+
+<!--                <li class="nav-item dropdown">-->
+<!--                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+<!--                    Pages-->
+<!--                  </a>-->
+
+<!--                  <div class="dropdown-menu dropdown-menu-right animate slideIn" aria-labelledby="navbarDropdown">-->
+<!--                    <a class="dropdown-item" href="../"><i class="fas fa-home align-center"></i> Home</a>-->
+<!--                    <div class="dropdown-divider"></div>-->
+<!--                    <a class="dropdown-item" href="../vulnerability/pnw"><i class="fas fa-map align-center"></i> Map</a>                    <div class="dropdown-divider"></div>-->
+<!--                    <a class="dropdown-item" href="../vulnerability"><i class="fas fa-book align-center"></i> Vulnerability</a>-->
+<!--                    <a class="dropdown-item" href="../adaptation"><i class="fas fa-book align-center"></i> Adaptation</a>-->
+<!--                  </div>-->
+<!--                </li>-->
+
+<!--                &lt;!&ndash;Info&ndash;&gt;-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" id="info" data-toggle="tooltip" data-placement="top" title="About this story map">-->
+<!--                        <i class="fa fa-fw fa-info-circle align-center" data-toggle="modal" data-target="#info-modal"></i>-->
+<!--                        <span class="nav-icon-text" data-toggle="modal" data-target="#info-modal">About</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+
+<!--                &lt;!&ndash;GitHub&ndash;&gt;-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" id="github" data-toggle="tooltip" data-placement="top" title="GitHub" href="https://www.github.com/briangkatz/" target="_blank">-->
+<!--                        <i class="fab fa-fw fa-git-square align-center"></i>-->
+<!--                        <span class="nav-icon-text">GitHub</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+
+<!--                &lt;!&ndash;Facebook&ndash;&gt;-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" id="facebook" data-toggle="tooltip" data-placement="top" title="Share" href="https://www.facebook.com/sharer/sharer.php?u=https%3A//briangkatz.github.io/oa/vulnerability/pnw/" target="_blank">-->
+<!--                        <i class="fab fa-fw fa-facebook-square align-center"></i>-->
+<!--                        <span class="nav-icon-text">Share</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+
+<!--                &lt;!&ndash;Twitter&ndash;&gt;-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" id="twitter" data-toggle="tooltip" data-placement="top" title="Tweet" href="https://twitter.com/home?status=https%3A//briangkatz.github.io/oa/vulnerability/pnw/" target="_blank">-->
+<!--                        <i class="fab fa-fw fa-twitter-square align-center"></i>-->
+<!--                        <span class="nav-icon-text">Tweet</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+
+<!--                &lt;!&ndash;CEOAS&ndash;&gt;-->
+<!--                <li class="nav-item text-center">-->
+<!--                    <a class="nav-link" id="osu" href="https://ceoas.oregonstate.edu/" target="_blank">-->
+<!--                        <img src="img/OSU_CEOAS_horizontal_2C_O_over_W.png" style="height:29px;" class="d-inline-block align-center image-responsive" alt="Oregon State University">-->
+<!--                    </a>-->
+<!--                </li>-->
+
+<!--                &lt;!&ndash;NOAA OAP&ndash;&gt;-->
+<!--                <li class="nav-item text-center">-->
+<!--                    <a class="nav-link" id="oap" href="https://oceanacidification.noaa.gov/" target="_blank">-->
+<!--                        <img src="img/oap140.png" style="height:29px;" class="d-inline-block align-center image-responsive" alt="NOAA Ocean Acidification Program">-->
+<!--                    </a>-->
+<!--                </li>-->
+
+<!--                &lt;!&ndash;Pacific Shellfish Institute&ndash;&gt;-->
+<!--                <li class="nav-item text-center">-->
+<!--                    <a class="nav-link" id="psi" href="http://www.pacshell.org/" target="_blank">-->
+<!--                        <img src="img/pacshell.png" style="height:29px;" class="d-inline-block align-center image-responsive" alt="NOAA Ocean Acidification Program">-->
+<!--                    </a>-->
+<!--                </li>-->
+
+<!--            </ul>-->
+<!--        </div>-->
+<!--    </nav>-->
+
+    <div id="storymap" class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6 col-md-4 storymap-story">
+
+                <section data-scene="title" data-background="assets/tide.mp4">
+                    <div class="fullscreen text-center">
+                        <h1 class="display-4 d-flex justify-content-center">Shellfish Dependent Livelihoods and Ocean Acidification</h1>
+                        <h3 class="display-4 d-flex justify-content-center"><small><small>Paving adaptation pathways in the Pacific Northwest</small></small></h3>
+                    </div>
+                </section>
+
+                <section data-scene="importance">
+                    <h2 class="text-center">Economic and Ecological Importance</h2>
+                    <br>
+                    <p class="storytext">Shellfish form the backbone of a $280 million annual industry in the Pacific Northwest - across a
+                        chain of suppliers, hatcheries, growers, processors, distributors, and vendors.</p>
+                    <img src="img/flats.png" class="img-responsive img-thumbnail" alt="responsive image"
+                         alt-text="Shellfish Harvesting">
+                    <br><br>
+                    <p class="storytext">Many indigenous peoples in the Pacific Northwest also place a special economic and cultural value on
+                    shellfish, and have done so for millennia.</p>
+                    <p class="storytext">Additionally, shellfish provide critical ecosystem services by filtering water and improving its quality. A
+                    single oyster can filter up to 50 gallons of water every day!</p>
+                    <div class="text-center"><iframe class="img-responsive img-thumbnail" src="https://www.youtube.com/embed/PUfLwdrPCmM?vq=hd720&autoplay=1&loop=1&rel=0&controls=0&showinfo=0&mute=1&playlist=PUfLwdrPCmM" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+                </section>
+
+                <section data-scene="oa">
+                    <h2 class="text-center">Ocean Acidification</h2>
+                    <br>
+                    <div class="text-center"><iframe class="img-responsive img-thumbnail" src="https://www.youtube.com/embed/7h08ok3hFSs?vq=hd1080&autoplay=0&loop=0&rel=0&controls=0&showinfo=0&mute=0&start=44&end=115" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
+                        <br>
+                        <p class="storytext"><a href="https://www.youtube.com/watch?v=7h08ok3hFSs" style="font-size:1em;">Video</a> by Oregon State University</p>
+                    </div>
+                    <br>
+                    <p class="storytext">The ocean naturally absorbs carbon dioxide (CO<sub>2</sub>) from the atmosphere - like a giant "carbon sink". Human
+                        activity has drastically increased the amount of CO<sub>2</sub> in the atmosphere through the combustion of
+                        fossil fuels, and this has resulted in much more dissolved CO<sub>2</sub> in the ocean. This change in the
+                        ocean's chemistry lowers pH and leads to a more acidified ocean.</p>
+                </section>
+
+                <section data-scene="shellfish">
+                    <h2 class="text-center">Impacts to Shellfish</h2>
+                    <br>
+                    <p class="storytext">Ocean acidification (OA) affects shellfish such as oysters and mussels during critical growth and
+                        development stages. Shell-forming bivalve species rely on carbonate to build their shells, and this ability
+                        is hindered in acidified water because a lot more carbonate is bound to extra H<sup>+</sup> ions.</p>
+                    <img src="img/oyster.png" class="img-responsive img-thumbnail" alt="responsive image"
+                         alt="oyster">
+                    <br><br>
+                    <img src="assets/larvae.png" class="img-responsive img-thumbnail" alt="responsive image"
+                         alt="oyster larvae">
+                    <p class="storytext">The picture above is a micrograph of Pacific oyster larvae raised under normal conditions (left) and acidified water (right). Source: <a style="font-size:1em;" href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/grl.50449" target="_blank">Waldbusser, et al. 2013</a></p>
+                </section>
+
+                <section data-scene="future">
+                    <h2 class="text-center">Looking Ahead</h2>
+                    <br>
+                    <p class="storytext">OA is occurring with greater intensity in the Pacific Northwest than anywhere else in the world. This
+                         poses a threat to ecosystems and economies that depend on them. The region is both a harbinger of
+                        things to come for other coastlines that will ultimately face OA exposure, and a laboratory for
+                    innovation on successful adaptation investments and strategies.</p>
+                    <h2 class="text-center">Forecasts</h2><h5 class="text-center">(from <a href="https://www.nnvl.noaa.gov/view/globaldata.html" style="color:black;">NOAA View Data Exploration Tool</a>)</h5>
+                    <p class="text-center"><b>pH (acidity)</b></p>
+                    <video controls width="500px" class="embedded-photo img-responsive">
+                        <source src="assets/ph.mp4" /></video>
+                    <br>
+                    <p class="text-center"><b>Aragonite saturation state (corrosivity)</b></p>
+                    <video controls width="500px" class="embedded-photo img-responsive">
+                        <source src="assets/aragonite.mp4" /></video>
+                </section>
+
+                <section data-scene="collaboration">
+                    <h2 class="text-center">Collaboration</h2>
+                    <br>
+                    <p class="storytext">Researchers and shellfish stakeholders at Oregon State University and the Pacific Shellfish Institute have
+                    partnered with NOAA to identify pathways for OA adaptation.</p>
+                    <h4 style="color:black;">Objectives:</h4>
+                    <h5 style="color:black;">1) Develop interactive mapping tools to enable public understanding of current and future OA exposure</h5>
+                    <h5 style="color:black;">2) Build bioeconomic models of shellfish aquaculture firms facing OA risk</h5>
+                    <h5 style="color:black;">3) Identify technological, institutional, legislative, financial, and cultural barriers to OA adaptation</h5>
+                    <h5 style="color:black;">4) Identify feasible long-term pathways to OA adaptation</h5>
+                    <h5 style="color:black;">5) Evaluate the value of those pathways</h5>
+                    <h5 style="color:black;">6) Develop behavioral models to predict the likelihood of users adopting feasible OA adaptation pathways</h5>
+                    <div class="container d-flex h-100">
+                        <div class="row justify-content-center align-self-center">
+                          <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                              <a href="https://ceoas.oregonstate.edu/" target="_blank"><img src="img/OSU_CEOAS_horizontal_2C_O_over_B.png" class="img-responsive img-thumbnail"/></a>
+                          </div>
+                          <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                              <a href="https://oceanacidification.noaa.gov/" target="_blank"><img src="img/oap140.png" class="img-responsive img-thumbnail"/></a>
+                          </div>
+                          <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                              <a href="http://pacshell.org/" target="_blank"><img src="img/pacshell.png" class="img-responsive img-thumbnail"/></a>
+                          </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section data-scene="regional_assessmenet" data-background="img/shell.jpg">
+                        <div class="fullscreen text-center">
+                            <h4 class="display-4 d-flex justify-content-center"><small><small>Regional Vulnerability Assessment:</small></small></h4>
+                            <div class="row mx-auto text-center">
+                                <div class="col-md-4 col-lg-4 map"></div>
+                                <div class="col-md-4 col-lg-4 map">
+                                    <img src="img/pnw.png" class="image-responsive img-thumbnail">
+                                    <a href="../vulnerability/pnw">
+                                    <div class="overlay">
+                                        <div class="text">
+                                            <h3>Pacific Northwest</h3>
+                                        </div>
+                                    </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-4 col-lg-4 map"></div>
+                            </div>
+                            <h3 class="attribution">Created by Brian Katz &#183; Oregon State University &#183; 2019</h3>
+                        </div>
+                </section>
+
+            </div>
+
+            <!--Map div-->
+            <div class="col-sm-6 col-md-8 storymap-map"></div>
+        </div>
+
+        <dl>
+            <dt>
+                <!--map icon-->
+                <a class="fa fa-map-o btn" style="color:black;" href="../vulnerability/pnw"></a>
+            </dt>
+            <dt>
+                <!--facebook icon-->
+                <a class="fa fa-facebook-square btn"
+                   href="https://www.facebook.com/sharer/sharer.php?u=https%3A//briangkatz.github.io/oa/background"
+                   style="color:black;top:40px;"
+                   target="_blank"></a>
+            </dt>
+            <dt>
+                <!--twitter icon-->
+                <a class="fa fa-twitter-square btn"
+                   href="https://twitter.com/home?status=https%3A//briangkatz.github.io/oa/background"
+                   style="color:black;top:60px;"
+                   target="_blank"></a>
+            </dt>
+            <dt>
+                <!--github icon-->
+                <a class="fa fa-git-square btn" href="https://github.com/briangkatz/oa" style="color:black;top:80px;"
+                   target="_blank"></a>
+            </dt>
+            <dt>
+                <!--info icon-->
+                <i class="fa fa-info-circle btn" style="color:black;top:100px" data-toggle="modal" data-target="#info-modal"></i>
+            </dt>
+        </dl>
+
+        <!--Info Modal-->
+        <div class="modal fade" id="info-modal" role="dialog">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h4 class="modal-title">About this story map</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <h5 style="font-size:1.25em;"><b>Overview</b></h5>
+                        <p>This story map describes the objectives of a research project at Oregon State University aimed at
+                            assessing the regional vulnerability of Pacific Northwest shellfish stakeholders to the hazard of
+                            ocean acidification.</p>
+                        <p>The story map library is derived from the
+                            storymap plugin for Leaflet at <a href="http://atlefren.github.io/storymap/" style="font-size:1em;">http://atlefren.github.io/storymap/</a>, and its functionality
+                            relies on both <a href="http://leafletjs.com/" style="font-size:1em;">Leaflet</a> and <a href="https://getbootstrap.com/" style="font-size:1em;">Bootstrap</a>.</p>
+
+                        <hr>
+                        <h5 style="font-size:1.25em;"><b>Data Sources</b></h5>
+                        <ul>
+                            <li><small><small>Oyster filtration <a href="https://www.youtube.com/watch?time_continue=11&v=PUfLwdrPCmM" style="font-size:1em; color:#000000;">video</a> by YouTube user kittyl0ve</small></small></li>
+                            <li><small><small>Ocean acidification <a href="https://www.youtube.com/watch?v=7h08ok3hFSs" style="font-size:1em; color:#000000;">video</a> by Oregon State University</small></small></li>
+                            <li><small><small>The shellfish grower data was obtained from the Pacific Shellfish Growers Association (<a href="https://pcsga.org/search-our-growers/" style="font-size:1em; color:#000000;">PCSGA</a>) website.</small></small></li>
+                            <li><small><small>The pH and aragonite saturation forecast videos were sourced from <a href="https://www.nnvl.noaa.gov/view/globaldata.html" style="font-size:1em; color:#000000;">NOAA View Data Exploration Tool</a>.</small></small></li>
+                            <li><small><small>The favicon image was acquired from <a href="https://pixabay.com/p-576545/?no_redirect" style="font-size:1em; color:#000000;">Pixabay</a>.</small></small></li>
+                            <li><small><small>Front page video by: <a href="https://briangkatz.github.io/" target="_blank" style="font-size:1em; color:#000000;">Brian Katz</a></small></small></li>
+                            <li><small><small>End scene photo by: <a href="https://www.linkedin.com/in/virginiakatz/" style="font-size:1em; color:#000000;">Ginny Katz</a></small></small></li>
+                            <li><small><small>This story map uses the Shellfish style base map built with <a href="https://www.mapbox.com" style="font-size:1em; color:#000000;">Mapbox</a>.</small></small></li>
+                        </ul>
+                        <hr>
+                        <h5 style="font-size:1.25em;"><b>Author: <a href="https://briangkatz.github.io" target="_blank">Brian G. Katz</a></b></h5>
+                        <p><small><a href="https://ceoas.oregonstate.edu/" target="_blank" style="font-size:1em;">College of Earth, Ocean, and Atmospheric Sciences</a> | <a href="https://oregonstate.edu" target="_blank" style="font-size:1em;">Oregon State University</a> | 2020</small></p>
+                        <p><small>Screenshots are open for use with the following citation:</small></p>
+                        <p><small>Katz, B. (2020). <i>Vulnerability and adaptation of Pacific Northwest shellfisheries to ocean acidification</i> [Master's thesis, Oregon State University]. Oregon State University.</small></p>
+                        <div class="container d-flex h-100">
+                            <div class="row justify-content-center align-self-center">
+                              <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                  <a href="https://ceoas.oregonstate.edu/" target="_blank"><img src="img/OSU_CEOAS_horizontal_2C_O_over_B.png" class="img-responsive img-thumbnail"/></a>
+                              </div>
+                              <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                  <a href="https://oceanacidification.noaa.gov/" target="_blank"><img src="img/oap140.png" class="img-responsive img-thumbnail"/></a>
+                              </div>
+                              <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                  <a href="http://pacshell.org/" target="_blank"><img src="img/pacshell.png" class="img-responsive img-thumbnail"/></a>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+<!-- Main JavaScript -->
+<script src="js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+<script src="js/sb-admin.min.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-110256930-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-110256930-2');
+</script>
+
+
+</body>
+</html>
