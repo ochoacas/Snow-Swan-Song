@@ -45,6 +45,29 @@ function styleVuln(feature) {
     };
 }
 
+var colorsSnowpack = chroma.scale('Oranges').mode('lab').colors(4);
+
+function setColorSnowpack(trend) {
+    var id = 0;
+    if (trend === 4) { id = 3; }  // High (H/L)
+    else if (trend === 3) { id = 2; }  // Medium (H/H)
+    else if (trend === 2) { id = 1; }  // Medium (L/L)
+    else  { id = 0; }  // Low (L/H)
+    return colorsSnowpack[id];
+}
+
+function styleSnowpack(feature) {
+    return {
+        fillColor: setColorSnowpack(feature.properties["Trend (%)"]),
+        fillOpacity: 0.6,
+        weight: 1,
+        opacity: 1,
+        color: '#000000',
+        dashArray: '2, 2',
+        dashOffset: '2'
+    };
+}
+
 function highlightFeatureEstuary(e) {
     var layer = e.target;
     layer.setStyle({
@@ -237,17 +260,33 @@ var layers = {
             onEachFeature: onEachFeatureVuln
         }),
         legend: legend_vulnerability_watersheds
+    },
+    snowpack_changes: {
+        layer: L.geoJson.ajax('assets/snowpack_changes_1955-2022.geojson', {
+            pointToLayer: function (feature, latlng) {
+                return L.circleMarker(latlng, {
+                    radius: 40,
+                    fillColor: "#2c8b19",
+                    stroke: false,
+                    fillOpacity: 0.25
+                })
+            },
+            onEachFeature: function (feature, layer) {
+                layer.bindTooltip(feature.properties["Trend (%)"].toFixed(2).toString(), {sticky: true, className: "feature-tooltip"});
+            }
+        }),
+        legend: legend_funded_projects
     }
 };
 
 var scenes = {
     title: {lat: 44.75, lng: -123.75, zoom: 7, name: 'Title'},
-    intro: {lat: 44.75, lng: -123.75, zoom: 7, name: 'Intro', layers: [layers.estuaries, layers.shellfish]},
+    intro: {lat: 44.75, lng: -123.75, zoom: 7, name: 'Intro', layers: [layers.snowpack_changes, layers.estuaries, layers.satellite]},
     exposure: {lat: 44.75, lng: -123.75, zoom: 7, name: 'Exposure', layers: [layers.watersheds_pnw, layers.shellfish2]},
     sensitivity: {lat: 44.75, lng: -123.75, zoom: 7, name: 'Sensitivity', layers: [layers.harvest_sites, layers.stakeholders, layers.estuaries, layers.shellfish]},
     adaptive_capacity: {lat: 44.75, lng: -123.75, zoom: 7, name: 'Adaptive Capacity', layers: [layers.funded_projects, layers.shellfish]},
     combined: {lat: 44.75, lng: -123.75, zoom: 7, name: 'Combined', layers: [layers.vulnerability_watersheds, layers.shellfish]},
-    end: {lat: 44.75, lng: -123.75, zoom: 7, name: 'Assessment'}
+    end: {lat: 44.75, lng: -123.75, zoom: 7, name: 'End'}
 };
 
 $('#storymap').storymap({
