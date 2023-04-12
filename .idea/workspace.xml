@@ -27,30 +27,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Workspace/Snow-Swan-Song"
-  }
-}]]></component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/scripts" />
+  </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Workspace\Snow-Swan-Song\scripts" />
       <recent name="C:\Workspace\oa\background" />
       <recent name="C:\Workspace\oa\background\img" />
       <recent name="C:\Workspace\oa\background\js" />
       <recent name="C:\Workspace\oa\background\css" />
-      <recent name="C:\Workspace\oa\background\dist" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Workspace\Snow-Swan-Song" />
       <recent name="C:\Workspace\oa\vulnerability\css" />
       <recent name="C:\Workspace\oa\scripts\analysis" />
       <recent name="C:\Workspace\oa\scripts\no" />
       <recent name="C:\Workspace\oa\scripts\preprocessing" />
-      <recent name="C:\Workspace\oa\vulnerability\dist" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.netcdf_to_tif_to_xyz_to_txt_to_geojson">
+  <component name="RunManager" selected="Python.snowpack_changes">
     <configuration name="bivariate-choropleth-map" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="oa" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -114,8 +110,30 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="snowpack_changes" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="oa" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/scripts" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/scripts/snowpack_changes.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.snowpack_changes" />
         <item itemvalue="Python.netcdf_to_tif_to_xyz_to_txt_to_geojson" />
         <item itemvalue="Python.bivariate-choropleth-map" />
         <item itemvalue="Python.retrieve-images" />
@@ -175,5 +193,6 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

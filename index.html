@@ -1,290 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+    <title>Snowpack Story Map</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+    <!-- Meta data for share links -->
+    <meta property="og:title" content="Vulnerability to Changes in Snowpack"/>
+    <meta property="og:url" content="https://ochoacas.github.io/Snow-Swan-Song/"/>
+    <meta property="og:description" content="Exposure, sensitivity, and adaptive capacity of the Oregon snow recreation industry to changes in snowpack."/>
+    <meta property="og:image" content="img/oyster_hand.jpg"/>
 
-  <title>Snow's Swan Song: A Tale of A Changing Wintertime Climate In Oregon</title>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet"/>
+    <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/sb-admin.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="dist/storymap.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
 
-  <!-- Bootstrap core CSS -->
-  <link href="dist/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="img/oyster_favicon.ico" type="image/x-icon">
 
-  <!-- Custom fonts for this template -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link href="dist/fontawesome-free/css/all.min.css" rel="stylesheet">
-  <link href="dist/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
-
-  <!-- Custom styles for this template -->
-  <link href="css/landing-page.min.css" rel="stylesheet">
-  <link href="css/bootstrap.css" rel="stylesheet">
-  <link href="css/sb-admin.css" rel="stylesheet">
-  <link href="css/main.css" rel="stylesheet">
-<script type="text/javascript" src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+    <!-- JavaScript libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/1.3.4/chroma.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
+    <script src="https://unpkg.com/rbush@2.0.1/rbush.min.js"></script>
+    <script src="https://unpkg.com/labelgun@6.0.0/lib/labelgun.min.js"></script>
+    <script src="dist/storymap.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://d3js.org/d3-color.v1.min.js"></script>
+    <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script src="https://dc-js.github.io/dc.js/js/crossfilter.js"></script>
+    <script src="https://dc-js.github.io/dc.js/js/dc.js"></script>
 
 </head>
 
 <body>
 
-<nav class="navbar navbar-expand-xl navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" id="title-text" href="#">Snow's Swan Song: A Tale of A Changing Wintertime Climate In Oregon</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-xl navbar-dark bg-dark fixed-top storymap-navbar" id="mainNav">
+        <a class="navbar-brand text-left" id="title-text" href="index.html">Vulnerability to Changes in Snowpack</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Pages
-          </a>
+        <!--SideNav-->
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav navbar-nav-scenes ml-auto"></ul>
+            <!--Responsive Nav Items - Docked on Top Nav or Inside Nav Menu-->
+            <ul class="navbar-nav ml-auto">
 
-          <div class="dropdown-menu dropdown-menu-right animate slideIn" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="vulnerability/pnw"><i class="fas fa-map align-center"></i> Interactive Map</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="background"><i class="fas fa-book align-center"></i> Where The Story Begins</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="vulnerability"><i class="fas fa-book align-center"></i> Who's At Risk</a>
-            <a class="dropdown-item" href="adaptation"><i class="fas fa-book align-center"></i> How Humanity Is Changing</a>
-          </div>
-        </li>
+                <!--Info-->
+                <li class="nav-item">
+                    <a class="nav-link" id="info" data-toggle="tooltip" data-placement="top" title="About this story map">
+                        <i class="fa fa-fw fa-info-circle align-center" data-toggle="modal" data-target="#info-modal"></i>
+                        <span class="nav-icon-text" data-toggle="modal" data-target="#info-modal">About</span>
+                    </a>
+                </li>
 
-        <!--Info-->
-        <li class="nav-item">
-            <a class="nav-link" id="info" data-toggle="tooltip" data-placement="top" title="About this project">
-                <i class="fa fa-fw fa-info-circle align-center" data-toggle="modal" data-target="#info-modal"></i>
-                <span class="nav-icon-text" data-toggle="modal" data-target="#info-modal">About</span>
-            </a>
-        </li>
+                <!--GitHub-->
+                <li class="nav-item">
+                    <a class="nav-link" id="github" data-toggle="tooltip" data-placement="top" title="GitHub" href="https://www.github.com/ochoacas/Snow-Swan-Song" target="_blank">
+                        <i class="fab fa-fw fa-git-square align-center"></i>
+                        <span class="nav-icon-text">GitHub</span>
+                    </a>
+                </li>
 
-        <!--GitHub-->
-        <li class="nav-item">
-            <a class="nav-link" id="github" data-toggle="tooltip" data-placement="top" title="GitHub" href="https://www.github.com/briangkatz/oa" target="_blank">
-                <i class="fab fa-fw fa-git-square align-center"></i>
-                <span class="nav-icon-text">GitHub</span>
-            </a>
-        </li>
+                <!--Facebook-->
+                <li class="nav-item">
+                    <a class="nav-link" id="facebook" data-toggle="tooltip" data-placement="top" title="Share" href="https://www.facebook.com/sharer/sharer.php?u=https%3A//ochoacas.github.io/Snow-Swan-Song/" target="_blank">
+                        <i class="fab fa-fw fa-facebook-square align-center"></i>
+                        <span class="nav-icon-text">Share</span>
+                    </a>
+                </li>
 
-        <!--Facebook-->
-        <li class="nav-item">
-            <a class="nav-link" id="facebook" data-toggle="tooltip" data-placement="top" title="Share" href="https://www.facebook.com/sharer/sharer.php?u=https%3A//briangkatz.github.io/oa/" target="_blank">
-                <i class="fab fa-fw fa-facebook-square align-center"></i>
-                <span class="nav-icon-text">Share</span>
-            </a>
-        </li>
+                <!--Twitter-->
+                <li class="nav-item">
+                    <a class="nav-link" id="twitter" data-toggle="tooltip" data-placement="top" title="Tweet" href="https://twitter.com/home?status=https%3A//ochoacas.github.io/Snow-Swan-Song/" target="_blank">
+                        <i class="fab fa-fw fa-twitter-square align-center"></i>
+                        <span class="nav-icon-text">Tweet</span>
+                    </a>
+                </li>
 
-        <!--Twitter-->
-        <li class="nav-item">
-            <a class="nav-link" id="twitter" data-toggle="tooltip" data-placement="top" title="Tweet" href="https://twitter.com/home?status=https%3A//briangkatz.github.io/oa/" target="_blank">
-                <i class="fab fa-fw fa-twitter-square align-center"></i>
-                <span class="nav-icon-text">Tweet</span>
-            </a>
-        </li>
+                <!--CEOAS-->
+                <li class="nav-item text-center">
+                    <a class="nav-link" id="osu" href="https://ceoas.oregonstate.edu/" target="_blank">
+                        <img src="img/OSU_CEOAS_horizontal_2C_O_over_W.png" style="height:29px;" class="d-inline-block align-center image-responsive" alt="Oregon State University">
+                    </a>
+                </li>
 
-        <!--CEOAS-->
-        <li class="nav-item text-center">
-            <a class="nav-link" id="osu" href="https://ceoas.oregonstate.edu/" target="_blank">
-                <img src="img/OSU_CEOAS_horizontal_2C_O_over_W.png" style="height:29px;" class="d-inline-block align-center image-responsive" alt="Oregon State University">
-            </a>
-        </li>
-
-        <!--NOAA OAP-->
-        <li class="nav-item text-center">
-            <a class="nav-link" id="oap" href="https://oceanacidification.noaa.gov/" target="_blank">
-                <img src="img/oap140.png" style="height:29px;" class="d-inline-block align-center image-responsive" alt="NOAA Ocean Acidification Program">
-            </a>
-        </li>
-
-        <!--Pacific Shellfish Institute-->
-        <li class="nav-item text-center">
-            <a class="nav-link" id="psi" href="http://www.pacshell.org/" target="_blank">
-                <img src="img/pacshell.png" style="height:29px;" class="d-inline-block align-center image-responsive" alt="NOAA Ocean Acidification Program">
-            </a>
-        </li>
-
-      </ul>
-    </div>
-</nav>
-
-  <header class="masthead text-white text-center">
-    <div class="overlay"></div>
-    <div class="container">
-      <div class="row">
-        <div class="col-xl-9 mx-auto">
-          <h1 class="mb-5">Looking at warming winters and the steps Oregon communities are taking to overcome snow's swan song.</h1>
+            </ul>
         </div>
-        <div class="col-md-10 col-lg-8 col-xl-7 mx-auto"></div>
-      </div>
-    </div>
-  </header>
+    </nav>
 
-  <section class="features-icons bg-dark text-center" id="iconSection">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-6">
-          <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-            <div class="features-icons-icon d-flex justify-content-center">
-              <a href="vulnerability"><i class="material-icons m-auto text-primary">warning</i></a>
+    <div id="storymap" class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6 col-md-4 storymap-story">
+
+                <!--Title-->
+                <section data-scene="title" data-background="assets/whiskey.mp4">
+                    <div class="fullscreen text-center">
+                        <h1 class="display-4 d-flex justify-content-center">The Story of Snow's Swan Song</h1>
+                        <h3 class="display-4 d-flex justify-content-center"><small><small>Exposure, Sensitivity, and Adaptive Capacity of the Oregon Snow Industry</small></small></h3>
+                    </div>
+                </section>
+
+                <!--Scene 1: Snow Exposition & Intro-->
+                <section data-scene="intro">
+                    <h2 class="text-center">What's Going On?</h2>
+                    <p class="storytext">Vulnerability to climate induced snow melt is affected by three major factors: 1) Shorter winter seasons, 2) Higher precipitation levels, and 3) Lower freezing temperatures.</p>
+                    <p class="storytext">These factors are discussed in the next sections, but the important thing to note here is their relationship to vulnerability.</p>
+                    <p class="storytext">Vulnerability increases when exposure & sensitivity increase:</p>
+                    <p class="storytext">↑ Hazard = ↑ Vulnerability</p>
+                    <p class="storytext">Vulnerability decreases when adaptive capacity increases:</p>
+                    <p class="storytext">↑ Actions = ↓ Vulnerability</p>
+                    <div class="container">
+                        <div class="row">
+                            <div class="span4"></div>
+                            <div class="span4"><img class="center-block img-responsive img-thumbnail" src="img/vulnerability_graphic.png" alt="Vulnerability infographic" />Illustration: <a href="https://www.linkedin.com/in/virginiakatz/" target="_blank" style="color:black;text-decoration:none;">Ginny Katz</a></div>
+                            <div class="span4"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!--Scene 2: Who's Affected? Who's Involved?-->
+                <section data-scene="exposure">
+                    <h2 class="text-center">Who's Involved? Who's Affected?</h2>
+                    <h6 class="dc">Precipitation/Temperature Data</h6>
+                    <font style="font-size:14px;" class="dc">Select a year range:</font>
+                    <select id="selectbox" class="dc">
+                        <option value="larvae">2010-2020</option>
+                        <option value="juvadult">2000-2010</option>
+                    </select>
+                    <svg id="species-response-chart" class="dc"></svg>
+                    <p class="storytext">(Explain the rising concern over shrinking snowpacks due to a rise in precipitation and a decrease in freezing temperatures.)</p>
+                    <p class="storytext">(Emphasize that with warmer summer conditions, snowpacks around Oregon and around the world have taken a massive hit and as a result are slowly shrinking away.)</p>
+                    <img src="img/larval_response.png" class="img-responsive img-thumbnail">
+                    <p class="storytext">(Find a neat image of a mountain community displaying a past and present picture of their snowpack to display these concerns...) <a href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/grl.50449" style="font-size:1em;" target="_blank">Waldbusser, et al. 2013</a></p>
+                    <video controls autoplay loop width="500px" class="embeded-photo img-responsive img-thumbnail"><source src="assets/interannual_exposure.mp4" type="video/mp4"/></video>
+                    <p class="storytext">(Go into further detail on what's causing warmer winters overall!)<sub>2</sub> water up to the coastal shelf from deep ocean currents.</p>
+                    <video controls autoplay loop width="500px" class="embeded-photo img-responsive img-thumbnail"><source src="assets/exposure_2050.mp4" type="video/mp4"/></video>
+                    <p class="storytext">(Emphasize the shrinking snowpack & it's impact on local snow attractions, tourism, and natural beauty.)</p>
+                    <div class="container-fluid" id="side-by-side-map"></div>
+                </section>
+
+                <!--Scene 3: Locations of Interest-->
+                <section data-scene="sensitivity">
+                    <h2 class="text-center">Where is this Happening?</h2>
+                    <p class="storytext">(Rattle off a list of regions and locations in Oregon that are taking a direct hit to shrinking winter seasons!)</p>
+                    <img src="img/oyster_hand.jpg" class="img-responsive img-thumbnail">
+                    <p class="storytext">A vast network of people rely on snowpack for their livelihoods, resources, and for entertainment including: (List all affected groups)</p>
+                    <video controls autoplay loop width="500px" class="embeded-photo img-responsive img-thumbnail"><source src="assets/seed.mp4" type="video/mp4"/></video>
+                    <p class="storytext">(Show any interesting patterns in the data for these locations and explain what makes these areas vulnerable to climate changed induced snowmelt.)</p>
+                </section>
+
+                <!--Scene 4: How are people Adapting?-->
+                <section data-scene="adaptive_capacity">
+                    <h2 class="text-center">How is Adaptation taking place?</h2>
+                    <p class="storytext">Adaptive capacity is the ability to marshall knowledge, tools, resources, and networks to avoid or reduce harmful consequences resulting from a hazard.</p>
+                    <img class="embeded-photo img-responsive img-thumbnail" src="img/buffer_pump.png"/>
+                    <p class="storytext">(Explain how the snow industry is changing/adapting to climate change induced snowmelt)</p>
+                    <video controls autoplay loop width="500px" class="embeded-photo img-responsive img-thumbnail"><source src="assets/burke-o-lator.mp4" type="video/mp4"/></video>
+                    <p class="storytext">(Go into detail on several specific pieces of technology or methods certain areas are using)</p>
+                </section>
+
+                <!--Scene 5: Comments from the Snow Industry/Others-->
+                <section data-scene="combined">
+                    <h2 class="text-center">Combined Vulnerability</h2>
+                    <p class="storytext">(Add any comments from those working in the snow industry.)</p>
+                    <img src="img/vulnerability_components.png" class="img-responsive img-thumbnail">
+                    <p class="storytext">(Add any comments from those who are not in the snow industry but love the snow)</p>
+                    <img src="img/vulnerability_clusters.png" class="img-responsive img-thumbnail">
+                </section>
+
+                <!--End-->
+                <section data-scene="end" data-background="img/tanks.png">
+                    <div class="fullscreen text-center">
+                        <h4 class="display-4 d-flex justify-content-center">Thank you!</h4>
+                        <h3 class="attribution">Created by Cassidy Ochoa & Brian Katz &#183; Oregon State University &#183; 2023</h3>
+                    </div>
+                </section>
+
             </div>
-            <a href="vulnerability" style="text-decoration: none; color: #000;"><h3>What's At Risk</h3></a>
-            <p class="lead mb-0">Trends for winters in Oregon, and what it could mean for the future.</p>
-          </div>
+
+            <!--Map div-->
+            <div class="col-sm-6 col-md-8 storymap-map"></div>
         </div>
-        <div class="col-lg-6">
-          <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-            <div class="features-icons-icon d-flex justify-content-center">
-              <a href="adaptation"><i class="material-icons m-auto text-primary">extension</i></a>
+
+        <!--Info Modal-->
+        <div class="modal fade" id="info-modal" role="dialog">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">About this story map</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <h5 style="font-size:1.25em;"><b>Overview</b></h5>
+                        <p>This story map describes how vulnerability is conceptualized for the Oregon snow recreation industry adapting to changes in snowpack.</p>
+                        <hr>
+                        <h5 style="font-size:1.25em;"><b>Authors: Cassidy Ochoa & <a href="https://briangkatz.github.io" target="_blank">Brian G. Katz</a></b></h5>
+                        <p><small><a href="https://ceoas.oregonstate.edu/" target="_blank" style="font-size:1em;">College of Earth, Ocean, and Atmospheric Sciences</a> | <a href="https://oregonstate.edu" target="_blank" style="font-size:1em;">Oregon State University</a> | 2023</small></p>
+                        <div class="container d-flex h-100">
+                            <div class="row justify-content-center align-self-center">
+                              <div class="col-sm-2 col-md-2 col-lg-2 col-xl-2"></div>
+                              <div class="col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                                  <a href="https://ceoas.oregonstate.edu/" target="_blank"><img src="img/OSU_CEOAS_horizontal_2C_O_over_B.png" class="img-responsive img-thumbnail"/></a>
+                              </div>
+                              <div class="col-sm-2 col-md-2 col-lg-2 col-xl-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <a href="adaptation" style="text-decoration: none; color: #000;"><h3>Adaptation</h3></a>
-            <p class="lead mb-0">Overcoming changing climate conditions.</p>
-          </div>
         </div>
-      </div>
+
     </div>
-  </section>
 
-  <section class="showcase" id="showcaseSection">
-    <div class="container-fluid p-0">
-      <div class="row bg-dark">
+<!-- Main JavaScript -->
+<script src="dist/leaflet-side-by-side.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+<script src="js/sb-admin.min.js"></script>
 
-        <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('img/vulnerability.png');"></div>
-        <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-          <a href="vulnerability" style="text-decoration: none; color: #fff;"><h2>Explore The Patterns</h2></a>
-          <p class="lead mb-0">Look At Interactive Maps and Climate Data!</p>
-        </div>
-      </div>
-      <div class="row  bg-dark">
-        <div class="col-lg-6 text-white showcase-img" style="background-image: url('img/adaptation.png');"></div>
-        <div class="col-lg-6 my-auto showcase-text">
-          <a href="adaptation" style="text-decoration: none; color: #fff;"><h2>Overcome. Adapt. Mitigate.</h2></a>
-          <p class="lead mb-0">Navigating adverse consequences of warming winters...!</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="testimonials text-center bg-dark" id="partnerSection">
-    <div class="container">
-      <h2 class="mb-5">Partners</h2>
-      <div class="row">
-        <div class="col-lg-4">
-          <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-            <a href="https://ceoas.oregonstate.edu/" target="_blank" style="text-decoration: none; color: #fff;">
-              <img class="img-fluid rounded-circle mb-3 partners" src="img/OSU_CEOAS_horizontal_2C_O_over_B_square.png" alt="Oregon State University College of Earth, Ocean, and Atmospheric Sciences">
-            </a>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-            <a href="https://oceanacidification.noaa.gov/" target="_blank" style="text-decoration: none; color: #fff;">
-              <img class="img-fluid rounded-circle mb-3 partners" src="img/oap140_square.png" alt="NOAA Ocean Acidification Program">
-            </a>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-            <a href="http://www.pacshell.org/" target="_blank" style="text-decoration: none; color: #fff;">
-              <img class="img-fluid rounded-circle mb-3 partners" src="img/pacshell_square.png" alt="Pacific Shellfish Institute">
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="call-to-action text-white text-center">
-    <div class="overlay"></div>
-    <div class="container">
-      <div class="row">
-        <div class="col-xl-9 mx-auto">
-          <h2 class="mb-4"><i>We can see the patterns. See what's happening all around us. Will you venture through this story?</i></h2>
-            <h3 class="mb-4">See what's happening!</h3>
-        </div>
-        <div class="col-md-10 col-lg-8 col-xl-7 mx-auto"></div>
-      </div>
-    </div>
-  </section>
-
-  <footer class="footer bg-dark">
-    <div class="container" id="footer">
-      <div class="row">
-        <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
-        </div>
-        <div class="col-lg-6 h-100 text-center text-lg-right my-auto align-right">
-          <ul class="list-inline mb-2">
-            <li class="list-inline-item">
-              <a href="mailto:katzbr@oregonstate.edu">Contact</a>
-            </li>
-          </ul>
-          <p class="text-muted small mb-4 mb-lg-0">&copy; <a href="https://briangkatz.github.io/">Cassidy P. Ochoa</a> 2023. All Rights Reserved.</p>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <!--Info Modal-->
-  <div class="modal fade" id="info-modal" role="dialog">
-      <div class="modal-dialog modal-md">
-          <div class="modal-content">
-
-              <div class="modal-header">
-                  <h4 class="modal-title">About this project</h4>
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-              </div>
-
-              <div class="modal-body">
-                  <h5><b>Overview</b></h5>
-                  <p>This project was supported by the <a href="https://noaa.gov" target="_blank">National Oceanic and Atmospheric Administration</a>'s <a href="https://oceanacidification.noaa.gov/" target="_blank">Ocean Acidification Program</a>, and was conducted by a research team at Oregon State University. The purpose of the project was to assess shellfish stakeholders' current and future vulnerability to ocean acidification (OA), and to identify pathways to successful adaptation. For more information about the project, click <a href="https://briangkatz.github.io/oa/background" target="_blank">here</a>.</p>
-                  <h5><b>Pages:</b></h5>
-                  <ol>
-                      <li>An interactive map of current and future species-specific risks to OA <a href="vulnerability/pnw"><i class="fas fa-map align-center"></i></a></li>
-                      <li>A story map on background information about OA and this project <a href="background"><i class="fas fa-book align-center"></i></a></li>
-                      <li>A story map on vulnerability to OA in the context of this project <a href="vulnerability"><i class="fas fa-book align-center"></i></a></li>
-                      <li>A story map on adaptation to OA in the context of a case study examined in this project <a href="adaptation"><i class="fas fa-book align-center"></i></a></li>
-                  </ol>
-                  <hr>
-                  <h5><b>Author: <a href="https://briangkatz.github.io" target="_blank">Brian G. Katz</a></b></h5>
-                  <p><small><a href="https://ceoas.oregonstate.edu/" target="_blank">College of Earth, Ocean, and Atmospheric Sciences</a> | <a href="https://oregonstate.edu" target="_blank">Oregon State University</a> | 2020</small></p>
-                  <p><small>Screenshots are open for use with the following citation:</small></p>
-                  <p><small>Katz, B. (2020). <i>Vulnerability and adaptation of Pacific Northwest shellfisheries to ocean acidification</i> [Master's thesis, Oregon State University]. Oregon State University.</small></p>
-                  <div class="container d-flex h-100">
-                  <div class="row justify-content-center align-self-center">
-                      <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                          <a href="https://ceoas.oregonstate.edu/" target="_blank"><img src="img/OSU_CEOAS_horizontal_2C_O_over_B.png" class="img-responsive img-thumbnail"/></a>
-                      </div>
-                      <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                          <a href="https://oceanacidification.noaa.gov/" target="_blank"><img src="img/oap140.png" class="img-responsive img-thumbnail"/></a>
-                      </div>
-                      <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                          <a href="http://pacshell.org/" target="_blank"><img src="img/pacshell.png" class="img-responsive img-thumbnail"/></a>
-                      </div>
-                  </div>
-                  </div>
-              </div>
-
-          </div>
-      </div>
-  </div>
-
-  <!-- Bootstrap core JavaScript -->
-  <script src="dist/jquery/jquery.min.js"></script>
-  <script src="dist/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="js/sb-admin.min.js"></script>
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F2GNHFTCLS"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-F2GNHFTCLS');
-    </script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-D8RYPQ19RG"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-D8RYPQ19RG');
+</script>
 
 </body>
 
