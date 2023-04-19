@@ -68,34 +68,6 @@ function styleSnowpack(feature) {
     };
 }
 
-function highlightFeatureEstuary(e) {
-    var layer = e.target;
-    layer.setStyle({
-        weight: 2,
-        opacity: 0.8,
-        color: '#ffffff',
-        fillColor: '#6b8e3a',
-        fillOpacity: 0.95,
-        dashArray: '1',
-        dashOffset: '0'
-    });
-    layer.bringToFront();
-    // Select the update class, and update the content with the input value.
-    layer.bindTooltip(layer.feature.properties.nca_name, {sticky: true, className: "feature-tooltip"});
-}
-
-function resetHighlightFeatureEstuary(e) {
-    layers.estuaries.layer.resetStyle(e.target);
-    $(".info").hide();
-}
-
-function onEachFeatureEstuary(feature, layer) {
-    layer.on({
-        mouseover: highlightFeatureEstuary,
-        mouseout: resetHighlightFeatureEstuary
-    });
-}
-
 function highlightFeatureWatershed(e) {
     var layer = e.target;
     layer.setStyle({
@@ -159,10 +131,7 @@ function onEachFeatureVuln(feature, layer) {
     });
 }
 
-var legend_estuaries = '<i style="background: #6b8e3a; opacity: 0.5"></i><p>Estuaries</p>';
-var legend_harvest_sites = '<i style="background: #00ff00; opacity: 0.5"></i><p>Harvest sites</p>';
-var legend_stakeholders = '<i style="background: #ff00ff; opacity: 0.5"></i><p>Stakeholders</p>';
-var legend_funded_projects = '<i style="background: #2c8b19; opacity: 0.5"></i><p>Funded projects</p>';
+var legend_stakeholders = '<i class="fa-solid fa-person-skiing" style="background: #ffffff; opacity: 0.5;"></i><p>Stakeholders</p>';
 var legend_vulnerability_watersheds = 'Vulnerability to OA*<br />' +
     '<i style="background: ' + colorsVuln[3] + '; opacity: 0.5;"></i><p>High (H/L)</p>' +
     '<i style="background: ' + colorsVuln[2] + '; opacity: 0.5"></i><p>Medium (H/H)</p>' +
@@ -180,20 +149,9 @@ var legend_watersheds_pnw = '<b>Rate of change in 30-year mean aragonite saturat
     '<div class="infoWatershed"><div class="updateWatershed"></div></div>';
 
 var layers = {
-    shellfish: {
-        layer: L.tileLayer('https://api.mapbox.com/styles/v1/katzbr/cjshza9xf1db51fqgpriounjs/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoia2F0emJyIiwiYSI6ImNqOHhmMnBucDIwZm4ycW8ya2d5cHF0cmsifQ.8rcjz0DyWs_ncWfOZ0VwKA')
-    },
-    shellfish2: {
-        layer: L.tileLayer('https://api.mapbox.com/styles/v1/katzbr/ck86ipeux087b1imd7iszin9d/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoia2F0emJyIiwiYSI6ImNqOHhmMnBucDIwZm4ycW8ya2d5cHF0cmsifQ.8rcjz0DyWs_ncWfOZ0VwKA')
-    },
     satellite: {
         layer: L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoia2F0emJyIiwiYSI6ImNqOHhmMnBucDIwZm4ycW8ya2d5cHF0cmsifQ.8rcjz0DyWs_ncWfOZ0VwKA', {
             id: 'mapbox.satellite'
-        })
-    },
-    dark: {
-        layer: L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoia2F0emJyIiwiYSI6ImNqOHhmMnBucDIwZm4ycW8ya2d5cHF0cmsifQ.8rcjz0DyWs_ncWfOZ0VwKA', {
-            id: 'mapbox.dark'
         })
     },
     watersheds_pnw: {
@@ -203,56 +161,24 @@ var layers = {
         }),
         legend: legend_watersheds_pnw
     },
-    estuaries: {
-        layer: L.geoJson.ajax('assets/estuaries.geojson', {
-            color: 'white',
-            weight: 2,
-            opacity: 0.0,
-            onEachFeature: onEachFeatureEstuary
-        }),
-        legend: legend_estuaries
-    },
-    harvest_sites: {
-        layer: L.geoJson.ajax('assets/harvest_sites.geojson', {
-            pointToLayer: function (feature, latlng) {
-                return L.circleMarker(latlng, {
-                    radius: 4,
-                    fillColor: "#00ff00",
-                    stroke: false,
-                    fillOpacity: 0.05
-                })
-            }
-        }),
-        legend: legend_harvest_sites
-    },
     stakeholders: {
         layer: L.geoJson.ajax('assets/stakeholders.geojson', {
             pointToLayer: function (feature, latlng) {
-                return L.circleMarker(latlng, {
-                    radius: 4,
-                    fillColor: "#ff00ff",
-                    stroke: false,
-                    fillOpacity: 0.25
-                })
-            },
-        }),
-        legend: legend_stakeholders
-    },
-    funded_projects: {
-        layer: L.geoJson.ajax('assets/funded_projects.geojson', {
-            pointToLayer: function (feature, latlng) {
-                return L.circleMarker(latlng, {
-                    radius: 4,
-                    fillColor: "#2c8b19",
-                    stroke: false,
-                    fillOpacity: 0.25
-                })
+                var id = 0;
+                var ico = "fa-solid fa-person-skiing";
+//                if (feature.properties.type === "HATCHERY") { id = 0; ico = "fa-solid fa-person-skiing"; }
+//                else if (feature.properties.type === "GROWER") { id = 1; ico = "fa-solid fa-person-skiing"; }
+//                else if (feature.properties.type === "TRIBE") { id = 2; ico = "fa-solid fa-person-skiing"; }
+//                else if (feature.properties.type === "PROCESSOR") { id = 3; ico = "fa-solid fa-person-skiing"; }
+//                else if (feature.properties.type === "DISTRIBUTOR") { id = 4; ico = "fa-solid fa-person-skiing"; }
+//                else { id = 5; ico = "fa-solid fa-person-skiing"} // "RETAILER"
+                return L.marker(latlng, {icon: L.divIcon({className: ico + " " + 'marker-color-1'})});
             },
             onEachFeature: function (feature, layer) {
-                layer.bindTooltip(feature.properties.project, {sticky: true, className: "feature-tooltip"});
+                layer.bindTooltip(feature.properties.name, {sticky: true, className: "feature-tooltip"});
             }
         }),
-        legend: legend_funded_projects
+        legend: legend_stakeholders
     },
     vulnerability_watersheds: {
         layer: L.geoJson.ajax("assets/vulnerability_watersheds.geojson", {
@@ -275,23 +201,23 @@ var layers = {
                 layer.bindTooltip(feature.properties["Trend (%)"].toFixed(2).toString(), {sticky: true, className: "feature-tooltip"});
             }
         }),
-        legend: legend_funded_projects
+        legend: legend_stakeholders
     }
 };
 
 var scenes = {
     title: {lat: 44.75, lng: -123.75, zoom: 7, name: 'Title'},
-    intro: {lat: 44.75, lng: -123.75, zoom: 7, name: 'Intro', layers: [layers.snowpack_changes, layers.estuaries, layers.satellite]},
-    exposure: {lat: 44.75, lng: -123.75, zoom: 7, name: 'Exposure', layers: [layers.watersheds_pnw, layers.shellfish2]},
-    sensitivity: {lat: 44.75, lng: -123.75, zoom: 7, name: 'Sensitivity', layers: [layers.harvest_sites, layers.stakeholders, layers.estuaries, layers.shellfish]},
-    adaptive_capacity: {lat: 44.75, lng: -123.75, zoom: 7, name: 'Adaptive Capacity', layers: [layers.funded_projects, layers.shellfish]},
-    combined: {lat: 44.75, lng: -123.75, zoom: 7, name: 'Combined', layers: [layers.vulnerability_watersheds, layers.shellfish]},
+    intro: {lat: 44.75, lng: -123.75, zoom: 7, name: 'Intro', layers: [layers.snowpack_changes, layers.satellite]},
+    exposure: {lat: 44.75, lng: -123.75, zoom: 7, name: 'Exposure', layers: [layers.watersheds_pnw, layers.satellite]},
+    sensitivity: {lat: 44.75, lng: -123.75, zoom: 7, name: 'Sensitivity', layers: [layers.stakeholders, layers.satellite]},
+    adaptive_capacity: {lat: 44.75, lng: -123.75, zoom: 7, name: 'Adaptive Capacity', layers: [layers.satellite]},
+    combined: {lat: 44.75, lng: -123.75, zoom: 7, name: 'Combined', layers: [layers.vulnerability_watersheds, layers.satellite]},
     end: {lat: 44.75, lng: -123.75, zoom: 7, name: 'End'}
 };
 
 $('#storymap').storymap({
     scenes: scenes,
-    baselayer: layers.shellfish,
+    baselayer: layers.satellite,
     navbar: true,
     legend: true,
     credits: "",
@@ -341,7 +267,7 @@ var t2 = L.tileLayer('assets/avg_arag_2020-2050/{z}/{x}/{y}.png', {
 
 L.control.sideBySide(t1, t2).addTo(side_by_side_map);
 
-layers.shellfish.layer.addTo(side_by_side_map);
+layers.satellite.layer.addTo(side_by_side_map);
 
 function setColorArag(mean_arag) {
     var id = 0;
