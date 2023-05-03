@@ -598,6 +598,7 @@ a:hover {
 
 .storymap-legend p {
     color: #000000;
+    font-size: 18px;
 }
 
 
@@ -1647,3 +1648,43 @@ p.storytext, .text-center {
     color: #000000;
 }
 
+.circlepadding {
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0);
+    padding-left: 20px;
+}
+
+.reference > a {
+    color: black;
+}
+
+.reference {
+    font-size: 16px;
+}
+
+i.fa-border-prop-radius {
+    margin-right: 0px !important;
+}
+
+
+.label-left {
+    padding-right: 2px;
+}
+
+.label-right {
+    padding-left: 2px;
+}
+
+
+.label-right-number {
+    position: relative;
+    right: 18px;
+}
+
+b.legend-title {
+    font-size: 20px;
+}
+
+b.legend-subtitle {
+    font-size: 16px;
+}

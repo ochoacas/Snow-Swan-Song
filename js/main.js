@@ -148,6 +148,37 @@ var legend_watersheds_pnw = '<b>Rate of change in 30-year mean aragonite saturat
     '<br><b class="disclaimer">Worsening ocean acidification is projected as a long-term decline in aragonite saturation state</b>' +
     '<div class="infoWatershed"><div class="updateWatershed"></div></div>';
 
+// Size of circle markers in point layer legend
+function getRadius(r) {
+    var r = Math.abs(r);
+    return (r >= 0 && r < 20) ? 8 :
+           (r >= 20 && r < 40) ? 10 :
+           (r >= 40 && r < 60) ? 12:
+           (r >= 60 && r < 80) ? 14 :
+           16;  // r >= 80
+}
+
+// Set colors, grades
+var colors = chroma.scale('RdBu').mode('lch').colors(2);
+var grades = [-80, -60, -40, -20, 0, 20, 40, 60, 80];
+var margins = [0, 2, 4, 6, 8];
+
+var legend_snowpack_changes = '<b class="legend-title">Change in April Snowpack (%), 1955-2020</b><br><br>' +
+    '<div class="container">' +
+        '<div class="row align-items-center mb-1"><div class="col-3 text-center d-flex justify-content-center"><i class="fa-border-prop-radius" style="background: ' + colors[1] + '; opacity: 1; width: ' + getRadius(grades[8]) * 2 + 'px; height: ' + getRadius(grades[8]) * 2 + 'px; border-radius: 50%;"></i></div><div class="col-4 text-right label-left"><p>' + grades[8] + '</p></div><div class="col-2 text-center"><p>or</p></div><div class="col-3 text-left label-right"><p>higher</p></div></div>' +
+        '<div class="row align-items-center mb-1"><div class="col-3 text-center d-flex justify-content-center"><i class="fa-border-prop-radius" style="background: ' + colors[1] + '; opacity: 1; width: ' + getRadius(grades[7]) * 2 + 'px; height: ' + getRadius(grades[7]) * 2 + 'px; border-radius: 50%;"></i></div><div class="col-4 text-right label-left"><p>' + grades[7] + '</p></div><div class="col-2 text-center"><p>to</p></div><div class="col-3 text-right label-right-number"><p>' + grades[8] + '</p></div><div class="col-2"></div></div>' +
+        '<div class="row align-items-center mb-1"><div class="col-3 text-center d-flex justify-content-center"><i class="fa-border-prop-radius" style="background: ' + colors[1] + '; opacity: 1; width: ' + getRadius(grades[6]) * 2 + 'px; height: ' + getRadius(grades[6]) * 2 + 'px; border-radius: 50%;"></i></div><div class="col-4 text-right label-left"><p>' + grades[6] + '</p></div><div class="col-2 text-center"><p>to</p></div><div class="col-3 text-right label-right-number"><p>' + grades[7] + '</p></div><div class="col-2"></div></div>' +
+        '<div class="row align-items-center mb-1"><div class="col-3 text-center d-flex justify-content-center"><i class="fa-border-prop-radius" style="background: ' + colors[1] + '; opacity: 1; width: ' + getRadius(grades[5]) * 2 + 'px; height: ' + getRadius(grades[5]) * 2 + 'px; border-radius: 50%;"></i></div><div class="col-4 text-right label-left"><p>' + grades[5] + '</p></div><div class="col-2 text-center"><p>to</p></div><div class="col-3 text-right label-right-number"><p>' + grades[6] + '</p></div><div class="col-2"></div></div>' +
+        '<div class="row align-items-center mb-1"><div class="col-3 text-center d-flex justify-content-center"><i class="fa-border-prop-radius" style="background: ' + colors[1] + '; opacity: 1; width: ' + getRadius(grades[4]) * 2 + 'px; height: ' + getRadius(grades[4]) * 2 + 'px; border-radius: 50%;"></i></div><div class="col-4 text-right label-left"><p>' + grades[4] + '</p></div><div class="col-2 text-center"><p>to</p></div><div class="col-3 text-right label-right-number"><p>' + grades[5] + '</p></div><div class="col-2"></div></div>' +
+        '<div class="row align-items-center mb-1"><div class="col-3 text-center d-flex justify-content-center"><i class="fa-border-prop-radius" style="background: ' + colors[0] + '; opacity: 1; width: ' + getRadius(grades[4]) * 2 + 'px; height: ' + getRadius(grades[4]) * 2 + 'px; border-radius: 50%;"></i></div><div class="col-4 text-right label-left"><p>' + grades[4] + '</p></div><div class="col-2 text-center"><p>to</p></div><div class="col-3 text-right label-right-number"><p>' + grades[3] + '</p></div><div class="col-2"></div></div>' +
+        '<div class="row align-items-center mb-1"><div class="col-3 text-center d-flex justify-content-center"><i class="fa-border-prop-radius" style="background: ' + colors[0] + '; opacity: 1; width: ' + getRadius(grades[3]) * 2 + 'px; height: ' + getRadius(grades[3]) * 2 + 'px; border-radius: 50%;"></i></div><div class="col-4 text-right label-left"><p>' + grades[3] + '</p></div><div class="col-2 text-center"><p>to</p></div><div class="col-3 text-right label-right-number"><p>' + grades[2] + '</p></div><div class="col-2"></div></div>' +
+        '<div class="row align-items-center mb-1"><div class="col-3 text-center d-flex justify-content-center"><i class="fa-border-prop-radius" style="background: ' + colors[0] + '; opacity: 1; width: ' + getRadius(grades[2]) * 2 + 'px; height: ' + getRadius(grades[2]) * 2 + 'px; border-radius: 50%;"></i></div><div class="col-4 text-right label-left"><p>' + grades[2] + '</p></div><div class="col-2 text-center"><p>to</p></div><div class="col-3 text-right label-right-number"><p>' + grades[1] + '</p></div><div class="col-2"></div></div>' +
+        '<div class="row align-items-center mb-1"><div class="col-3 text-center d-flex justify-content-center"><i class="fa-border-prop-radius" style="background: ' + colors[0] + '; opacity: 1; width: ' + getRadius(grades[1]) * 2 + 'px; height: ' + getRadius(grades[1]) * 2 + 'px; border-radius: 50%;"></i></div><div class="col-4 text-right label-left"><p>' + grades[1] + '</p></div><div class="col-2 text-center"><p>to</p></div><div class="col-3 text-right label-right-number"><p>' + grades[0] + '</p></div><div class="col-2"></div></div>' +
+        '<div class="row align-items-center mb-1"><div class="col-3 text-center d-flex justify-content-center"><i class="fa-border-prop-radius" style="background: ' + colors[0] + '; opacity: 1; width: ' + getRadius(grades[0]) * 2 + 'px; height: ' + getRadius(grades[0]) * 2 + 'px; border-radius: 50%;"></i></div><div class="col-4 text-right label-left"><p>' + grades[0] + '</p></div><div class="col-2 text-center"><p>or</p></div><div class="col-3 text-left label-right"><p>lower</p></div></div>' +
+    '</div>' +
+    '<br>' +
+    '<small class="reference">Data: <a href="https://www.epa.gov/climate-indicators/climate-change-indicators-snowpack" target="_blank">Environmental Protection Agency</a></small>';
+
 var layers = {
     satellite: {
         layer: L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoia2F0emJyIiwiYSI6ImNqOHhmMnBucDIwZm4ycW8ya2d5cHF0cmsifQ.8rcjz0DyWs_ncWfOZ0VwKA', {
@@ -201,7 +232,7 @@ var layers = {
                 layer.bindTooltip(feature.properties["Trend (%)"].toFixed(2).toString(), {sticky: true, className: "feature-tooltip"});
             }
         }),
-        legend: legend_stakeholders
+        legend: legend_snowpack_changes
     }
 };
 
