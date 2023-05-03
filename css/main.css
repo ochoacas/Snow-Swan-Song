@@ -1054,9 +1054,15 @@ g text {
     z-index: 1000;
 }
 
+
 .leaflet-control-zoom {
-    z-index: 1;
+    position: fixed;
+    left: 64%;
+    top: 60px;
+    display: none;
+
 }
+
 
 .tooltip {
     font-family: 'Oswald', sans-serif;
@@ -1551,8 +1557,8 @@ a.nav-link > i {
         right: 5px;
     }
     .storymap-legend {
-        top: 100px;
-        left: 100px;
+        top: 57.5%;
+        left: 51%;
     }
     .attribution {
         font-size: 1vw;
