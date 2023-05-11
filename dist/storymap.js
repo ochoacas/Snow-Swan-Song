@@ -41,8 +41,9 @@
             scrolldown: true,
             progressline: true,
             mapinteraction: false,
+//            preferCanvas: true,
             createMap: function () {
-                var map = L.map($('.storymap-map')[0], {zoomControl: false}).setView([45, -124], 7);
+                var map = L.map($('.storymap-map')[0], {zoomControl: false}).setView([39.4997222185, -113.5024305610014], 4);
                 return map;
             }
         };
@@ -154,7 +155,7 @@
             }
 
             if (settings.scrolldown) {
-                $(".storymap").append("<div class='zoomIn infinite material-icons d-flex fixed-bottom mb-5 storymap-scroll-down'>keyboard_arrow_down</div>")
+                $(".storymap").append("<span class='material-icons zoomIn infinite d-flex fixed-bottom mb-5 storymap-scroll-down'>keyboard_arrow_down</span>")
             }
 
             if (settings.scalebar) {
@@ -175,20 +176,18 @@
             }
 
             if (settings.loader) {
-                $(".storymap").append("<div class='material-icons storymap-loader'> autorenew </div>")
+                $(".storymap").append("<span class='material-icons storymap-loader'> autorenew </span>")
 
             }
 
 
             $(".storymap-map .leaflet-control-attribution")
                 .addClass("storymap-attribution")
-                .html("<a href='https://github.com/atlefren/storymap/'><img src='img/logo.png' width='18px' target='_blank' > storymap.js </a>");
+                .html("<a href='https://github.com/atlefren/storymap/'><img src='dist/logo.png' width='18px' target='_blank' > storymap.js </a>");
 
 
             if (settings.credits) {
                 $(".storymap-attribution").find("a").prepend(settings.credits + " | ");
-
-
             }
 
             if (settings.mapinteraction) {
@@ -260,7 +259,7 @@
                         $(section).find(".fullscreen").before('<video class="fullscreen canvas-center"  playsinline autoplay muted loop><source src=' + path + '  type="video/mp4"></video>')
 
                     } else {
-                        console.log(path);
+                        // console.log(path);
                     }
                 }
 
@@ -479,9 +478,9 @@
 
                     // if key is equal to 0, meaning it is the first scene.
                     if (key === 0) {
-                        $(".storymap-navwidget").append('<li><a class="material-icons" style="font-size: 16px" data-toggle="tooltip" title="' + sceneName + '" href="' + scrollScript + '" >home</a></li>');
+                        $(".storymap-navwidget").append('<li><a style="font-size: 16px" data-toggle="tooltip" title="' + sceneName + '" href="' + scrollScript + '" ><span class="material-icons">home</span></a></li>');
                     } else {
-                        $(".storymap-navwidget").append('<li><a class="material-icons" style="font-size: 12px" data-toggle="tooltip" title="' + sceneName + '" href="' + scrollScript + '" >lens</a></li>');
+                        $(".storymap-navwidget").append('<li><a style="font-size: 12px" data-toggle="tooltip" title="' + sceneName + '" href="' + scrollScript + '" ><span class="material-icons">lens</span></a></li>');
                     }
                 });
 

@@ -1,0 +1,9 @@
+{
+"type": "FeatureCollection",
+"name": "study_areas",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "STATE": "COLORADO", "NAME": "Aspen Mountain Ski Area", "TYPE": "Both" }, "geometry": { "type": "Point", "coordinates": [ -106.82861, 39.17611 ] } },
+{ "type": "Feature", "properties": { "STATE": "OREGON", "NAME": "Mt. Bachelor Ski Area", "TYPE": "Both" }, "geometry": { "type": "Point", "coordinates": [ -121.68028, 43.99528 ] } }
+]
+}
