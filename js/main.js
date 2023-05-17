@@ -31,8 +31,7 @@ var legend_snowpack_changes = '<b class="legend-title">Change in April Snowpack 
         '<div class="row align-items-center mb-1"><div class="col-3 text-center d-flex justify-content-center"><i class="fa-border-prop-radius" style="background: ' + getColor(grades[0]) + '; opacity: 1; width: ' + getRadius(grades[1]) * 2 + 'px; height: ' + getRadius(grades[1]) * 2 + 'px; border-radius: 50%;"></i></div><div class="col-4 text-right label-left"><p>' + grades[1] + '</p></div><div class="col-2 text-center"><p>to</p></div><div class="col-3 text-right label-right-number"><p>' + grades[0] + '</p></div><div class="col-2"></div></div>' +
         '<div class="row align-items-center mb-1"><div class="col-3 text-center d-flex justify-content-center"><i class="fa-border-prop-radius" style="background: ' + getColor(grades[0]) + '; opacity: 1; width: ' + getRadius(grades[0]) * 2 + 'px; height: ' + getRadius(grades[0]) * 2 + 'px; border-radius: 50%;"></i></div><div class="col-4 text-right label-left"><p>' + grades[0] + '</p></div><div class="col-2 text-center"><p>or</p></div><div class="col-3 text-left label-right"><p>lower</p></div></div>' +
     '</div>' +
-    '<br>' +
-    '<small class="reference">Data: <a href="https://www.epa.gov/climate-indicators/climate-change-indicators-snowpack" target="_blank">Environmental Protection Agency</a></small>';
+    '<p><small class="reference">Data: <a href="https://www.epa.gov/climate-indicators/climate-change-indicators-snowpack" target="_blank">Environmental Protection Agency</a></small></p>';
 
 var legend_ski_areas = '<i class="fa-solid fa-person-skiing" style="color: #000000; background: #ffffff; opacity: 1;"></i><b class="legend-title">: Ski Areas</b><br><hr>';
 
@@ -70,6 +69,196 @@ var markerOptions_mountain = {
     opacity: 1
 }
 
+var colorsCounties = chroma.scale('Greens').mode('lab').colors(5);
+var gradesCounties = [0.02, 0.07, 0.10, 0.14, 0.19, 0.26];
+
+function setColorCounties(attribute) {
+    var id = 0;
+    if (attribute < gradesCounties[1]) { id = 0; }
+    else if (gradesCounties[1] <= attribute && attribute < gradesCounties[2]) { id = 1; }
+    else if (gradesCounties[2] <= attribute && attribute < gradesCounties[3]) { id = 2; }
+    else if (gradesCounties[3] <= attribute && attribute < gradesCounties[4]) { id = 3; }
+    else  { id = 4; }  // gradesCounties[4] <= attribute
+    return colorsCounties[id];
+}
+
+function styleCounties(feature) {
+    return {
+        fillColor: setColorCounties(feature.properties.pcEmpRec.toFixed(2)),
+        fillOpacity: 0.6,
+        weight: 1,
+        opacity: 1,
+        color: '#000000',
+        dashArray: '2, 2',
+        dashOffset: '2'
+    };
+}
+
+function highlightFeatureCounties(e) {
+    var layer = e.target;
+    layer.setStyle({
+        weight: 2,
+        opacity: 0.8,
+        color: '#ffffff',
+        fillOpacity: 0.95,
+        dashArray: '1',
+        dashOffset: '0'
+    });
+    layer.bringToFront();
+}
+
+function resetHighlightCounties(e) {
+    layers.counties.layer.resetStyle(e.target);
+}
+
+function onEachFeatureCounties(feature, layer) {
+    layer.bindTooltip(
+        feature.properties.NAME + ': ' + (feature.properties.pcEmpRec.toFixed(2) * 100).toFixed(0).toString() + '%',
+        {sticky: true, className: "feature-tooltip"}
+    );
+    layer.on({
+        mouseover: highlightFeatureCounties,
+        mouseout: resetHighlightCounties
+    });
+}
+
+var legend_counties = '<b class="legend-title">% Employed in Recreation & Tourism Industry</b><br><br>' +
+    '<div class="container">' +
+        '<div class="row align-items-center mb-1"><div class="col-3 text-center d-flex justify-content-center"><i style="background: ' + setColorCounties(gradesCounties[4]) + '; opacity: 0.5;"></i></div><div class="col-3 text-right label-left"><p>' + (gradesCounties[4].toFixed(2) * 100).toFixed(0) + ' %</p></div><div class="col-2 text-center"><p>to</p></div><div class="col-4 text-right label-right-number"><p>' + (gradesCounties[5].toFixed(2) * 100).toFixed(0) + ' %</p></div></div>' +
+        '<div class="row align-items-center mb-1"><div class="col-3 text-center d-flex justify-content-center"><i style="background: ' + setColorCounties(gradesCounties[3]) + '; opacity: 0.5;"></i></div><div class="col-3 text-right label-left"><p>' + (gradesCounties[3].toFixed(2) * 100).toFixed(0) + ' %</p></div><div class="col-2 text-center"><p>to</p></div><div class="col-4 text-right label-right-number"><p>' + (gradesCounties[4].toFixed(2) * 100).toFixed(0) + ' %</p></div><div class="col-2"></div></div>' +
+        '<div class="row align-items-center mb-1"><div class="col-3 text-center d-flex justify-content-center"><i style="background: ' + setColorCounties(gradesCounties[2]) + '; opacity: 0.5;"></i></div><div class="col-3 text-right label-left"><p>' + (gradesCounties[2].toFixed(2) * 100).toFixed(0) + ' %</p></div><div class="col-2 text-center"><p>to</p></div><div class="col-4 text-right label-right-number"><p>' + (gradesCounties[3].toFixed(2) * 100).toFixed(0) + ' %</p></div><div class="col-2"></div></div>' +
+        '<div class="row align-items-center mb-1"><div class="col-3 text-center d-flex justify-content-center"><i style="background: ' + setColorCounties(gradesCounties[1]) + '; opacity: 0.5;"></i></div><div class="col-3 text-right label-left"><p>' + (gradesCounties[1].toFixed(2) * 100).toFixed(0) + ' %</p></div><div class="col-2 text-center"><p>to</p></div><div class="col-4 text-right label-right-number"><p>' + (gradesCounties[2].toFixed(2) * 100).toFixed(0) + ' %</p></div><div class="col-2"></div></div>' +
+        '<div class="row align-items-center mb-1"><div class="col-3 text-center d-flex justify-content-center"><i style="background: ' + setColorCounties(gradesCounties[0]) + '; opacity: 0.5;"></i></div><div class="col-3 text-right label-left"><p>' + (gradesCounties[0].toFixed(2) * 100).toFixed(0) + ' %</p></div><div class="col-2 text-center"><p>to</p></div><div class="col-4 text-right label-right-number"><p>' + (gradesCounties[1].toFixed(2) * 100).toFixed(0) + ' %</p></div><div class="col-2"></div></div>' +
+    '</div>' +
+    '<p><small class="reference">Data: <a href="https://data.census.gov/" target="_blank">United States Census Bureau</a></small></p>';
+
+var colorsTractsOR = chroma.scale('Greens').mode('lab').colors(5);
+var gradesTractsOR = [0, 0.05, 0.09, 0.14, 0.22, 0.42];
+
+function setColorTractsOR(attribute) {
+    var id = 0;
+    if (attribute < gradesTractsOR[1]) { id = 0; }
+    else if (gradesTractsOR[1] <= attribute && attribute < gradesTractsOR[2]) { id = 1; }
+    else if (gradesTractsOR[2] <= attribute && attribute < gradesTractsOR[3]) { id = 2; }
+    else if (gradesTractsOR[3] <= attribute && attribute < gradesTractsOR[4]) { id = 3; }
+    else  { id = 4; }  // gradesTractsOR[4] <= attribute
+    return colorsTractsOR[id];
+}
+
+function styleTractsOR(feature) {
+    return {
+        fillColor: setColorTractsOR(feature.properties.pcEmpRec.toFixed(2)),
+        fillOpacity: 0.6,
+        weight: 1,
+        opacity: 1,
+        color: '#000000',
+        dashArray: '2, 2',
+        dashOffset: '2'
+    };
+}
+
+function highlightFeatureTractsOR(e) {
+    var layer = e.target;
+    layer.setStyle({
+        weight: 2,
+        opacity: 0.8,
+        color: '#ffffff',
+        fillOpacity: 0.95,
+        dashArray: '1',
+        dashOffset: '0'
+    });
+    layer.bringToFront();
+}
+
+function resetHighlightTractsOR(e) {
+    layers.tractsOR.layer.resetStyle(e.target);
+}
+
+function onEachFeatureTractsOR(feature, layer) {
+    layer.bindTooltip(
+        feature.properties.COUNTYNAME + ' Tract #' + feature.properties.NAME + ': ' + (feature.properties.pcEmpRec.toFixed(2) * 100).toFixed(0).toString() + '%',
+        {sticky: true, className: "feature-tooltip"}
+    );
+    layer.on({
+        mouseover: highlightFeatureTractsOR,
+        mouseout: resetHighlightTractsOR
+    });
+}
+
+var legend_tractsOR = '<b class="legend-title">% Employed in Recreation & Tourism Industry</b><br><br>' +
+    '<div class="container">' +
+        '<div class="row align-items-center mb-1"><div class="col-3 text-center d-flex justify-content-center"><i style="background: ' + setColorTractsOR(gradesTractsOR[4]) + '; opacity: 0.5;"></i></div><div class="col-3 text-right label-left"><p>' + (gradesTractsOR[4].toFixed(2) * 100).toFixed(0) + ' %</p></div><div class="col-2 text-center"><p>to</p></div><div class="col-4 text-right label-right-number"><p>' + (gradesTractsOR[5].toFixed(2) * 100).toFixed(0) + ' %</p></div></div>' +
+        '<div class="row align-items-center mb-1"><div class="col-3 text-center d-flex justify-content-center"><i style="background: ' + setColorTractsOR(gradesTractsOR[3]) + '; opacity: 0.5;"></i></div><div class="col-3 text-right label-left"><p>' + (gradesTractsOR[3].toFixed(2) * 100).toFixed(0) + ' %</p></div><div class="col-2 text-center"><p>to</p></div><div class="col-4 text-right label-right-number"><p>' + (gradesTractsOR[4].toFixed(2) * 100).toFixed(0) + ' %</p></div><div class="col-2"></div></div>' +
+        '<div class="row align-items-center mb-1"><div class="col-3 text-center d-flex justify-content-center"><i style="background: ' + setColorTractsOR(gradesTractsOR[2]) + '; opacity: 0.5;"></i></div><div class="col-3 text-right label-left"><p>' + (gradesTractsOR[2].toFixed(2) * 100).toFixed(0) + ' %</p></div><div class="col-2 text-center"><p>to</p></div><div class="col-4 text-right label-right-number"><p>' + (gradesTractsOR[3].toFixed(2) * 100).toFixed(0) + ' %</p></div><div class="col-2"></div></div>' +
+        '<div class="row align-items-center mb-1"><div class="col-3 text-center d-flex justify-content-center"><i style="background: ' + setColorTractsOR(gradesTractsOR[1]) + '; opacity: 0.5;"></i></div><div class="col-3 text-right label-left"><p>' + (gradesTractsOR[1].toFixed(2) * 100).toFixed(0) + ' %</p></div><div class="col-2 text-center"><p>to</p></div><div class="col-4 text-right label-right-number"><p>' + (gradesTractsOR[2].toFixed(2) * 100).toFixed(0) + ' %</p></div><div class="col-2"></div></div>' +
+        '<div class="row align-items-center mb-1"><div class="col-3 text-center d-flex justify-content-center"><i style="background: ' + setColorTractsOR(gradesTractsOR[0]) + '; opacity: 0.5;"></i></div><div class="col-3 text-right label-left"><p>' + (gradesTractsOR[0].toFixed(2) * 100).toFixed(0) + ' %</p></div><div class="col-2 text-center"><p>to</p></div><div class="col-4 text-right label-right-number"><p>' + (gradesTractsOR[1].toFixed(2) * 100).toFixed(0) + ' %</p></div><div class="col-2"></div></div>' +
+    '</div>' +
+    '<p><small class="reference">Data: <a href="https://data.census.gov/" target="_blank">United States Census Bureau</a></small></p>';
+
+
+var colorsTractsCO = chroma.scale('Greens').mode('lab').colors(5);
+var gradesTractsCO = [0, 0.06, 0.11, 0.18, 0.33, 0.60];
+
+function setColorTractsCO(attribute) {
+    var id = 0;
+    if (gradesTractsCO[0] <= attribute && attribute < gradesTractsCO[1]) { id = 0; }
+    else if (gradesTractsCO[1] <= attribute && attribute < gradesTractsCO[2]) { id = 1; }
+    else if (gradesTractsCO[2] <= attribute && attribute < gradesTractsCO[3]) { id = 2; }
+    else if (gradesTractsCO[3] <= attribute && attribute < gradesTractsCO[4]) { id = 3; }
+    else  { id = 4; }  // gradesTractsCO[4] <= attribute
+    return colorsTractsCO[id];
+}
+
+function styleTractsCO(feature) {
+    return {
+        fillColor: setColorTractsCO(feature.properties.pcEmpRec.toFixed(2)),
+        fillOpacity: 0.6,
+        weight: 1,
+        opacity: 1,
+        color: '#000000',
+        dashArray: '2, 2',
+        dashOffset: '2'
+    };
+}
+
+function highlightFeatureTractsCO(e) {
+    var layer = e.target;
+    layer.setStyle({
+        weight: 2,
+        opacity: 0.8,
+        color: '#ffffff',
+        fillOpacity: 0.95,
+        dashArray: '1',
+        dashOffset: '0'
+    });
+    layer.bringToFront();
+}
+
+function resetHighlightTractsCO(e) {
+    layers.tractsCO.layer.resetStyle(e.target);
+}
+
+function onEachFeatureTractsCO(feature, layer) {
+    layer.bindTooltip(
+        feature.properties.COUNTYNAME + ' Tract #' + feature.properties.NAME + ': ' + (feature.properties.pcEmpRec.toFixed(2) * 100).toFixed(0).toString() + '%',
+        {sticky: true, className: "feature-tooltip"}
+    );
+    layer.on({
+        mouseover: highlightFeatureTractsCO,
+        mouseout: resetHighlightTractsCO
+    });
+}
+
+var legend_tractsCO = '<b class="legend-title">% Employed in Recreation & Tourism Industry</b><br><br>' +
+    '<div class="container">' +
+        '<div class="row align-items-center mb-1"><div class="col-3 text-center d-flex justify-content-center"><i style="background: ' + setColorTractsCO(gradesTractsCO[4]) + '; opacity: 0.5;"></i></div><div class="col-3 text-right label-left"><p>' + (gradesTractsCO[4].toFixed(2) * 100).toFixed(0) + ' %</p></div><div class="col-2 text-center"><p>to</p></div><div class="col-4 text-right label-right-number"><p>' + (gradesTractsCO[5].toFixed(2) * 100).toFixed(0) + ' %</p></div></div>' +
+        '<div class="row align-items-center mb-1"><div class="col-3 text-center d-flex justify-content-center"><i style="background: ' + setColorTractsCO(gradesTractsCO[3]) + '; opacity: 0.5;"></i></div><div class="col-3 text-right label-left"><p>' + (gradesTractsCO[3].toFixed(2) * 100).toFixed(0) + ' %</p></div><div class="col-2 text-center"><p>to</p></div><div class="col-4 text-right label-right-number"><p>' + (gradesTractsCO[4].toFixed(2) * 100).toFixed(0) + ' %</p></div><div class="col-2"></div></div>' +
+        '<div class="row align-items-center mb-1"><div class="col-3 text-center d-flex justify-content-center"><i style="background: ' + setColorTractsCO(gradesTractsCO[2]) + '; opacity: 0.5;"></i></div><div class="col-3 text-right label-left"><p>' + (gradesTractsCO[2].toFixed(2) * 100).toFixed(0) + ' %</p></div><div class="col-2 text-center"><p>to</p></div><div class="col-4 text-right label-right-number"><p>' + (gradesTractsCO[3].toFixed(2) * 100).toFixed(0) + ' %</p></div><div class="col-2"></div></div>' +
+        '<div class="row align-items-center mb-1"><div class="col-3 text-center d-flex justify-content-center"><i style="background: ' + setColorTractsCO(gradesTractsCO[1]) + '; opacity: 0.5;"></i></div><div class="col-3 text-right label-left"><p>' + (gradesTractsCO[1].toFixed(2) * 100).toFixed(0) + ' %</p></div><div class="col-2 text-center"><p>to</p></div><div class="col-4 text-right label-right-number"><p>' + (gradesTractsCO[2].toFixed(2) * 100).toFixed(0) + ' %</p></div><div class="col-2"></div></div>' +
+        '<div class="row align-items-center mb-1"><div class="col-3 text-center d-flex justify-content-center"><i style="background: ' + setColorTractsCO(gradesTractsCO[0]) + '; opacity: 0.5;"></i></div><div class="col-3 text-right label-left"><p>' + (gradesTractsCO[0].toFixed(2) * 100).toFixed(0) + ' %</p></div><div class="col-2 text-center"><p>to</p></div><div class="col-4 text-right label-right-number"><p>' + (gradesTractsCO[1].toFixed(2) * 100).toFixed(0) + ' %</p></div><div class="col-2"></div></div>' +
+    '</div>' +
+    '<br>' +
+    '<small class="reference">Data: <a href="https://data.census.gov/" target="_blank">United States Census Bureau</a></small>';
 
 var layers = {
     basemap_light: {
@@ -122,6 +311,27 @@ var layers = {
         }),
         legend: legend_study_areas
     },
+    counties: {
+        layer: L.geoJson.ajax("assets/counties_OR_CO.geojson", {
+            style: styleCounties,
+            onEachFeature: onEachFeatureCounties
+        }),
+        legend: legend_counties
+    },
+    tractsOR: {
+        layer: L.geoJson.ajax("assets/census_tracts_OR.geojson", {
+            style: styleTractsOR,
+            onEachFeature: onEachFeatureTractsOR
+        }),
+        legend: legend_tractsOR
+    },
+    tractsCO: {
+        layer: L.geoJson.ajax("assets/census_tracts_CO.geojson", {
+            style: styleTractsCO,
+            onEachFeature: onEachFeatureTractsCO
+        }),
+        legend: legend_tractsCO
+    },
 };
 
 // Set story scene titles, locations, zoom levels, and layers
@@ -130,11 +340,11 @@ var scenes = {
     intro: {lat: 42.5, lng: -100, zoom: 5, name: 'Intro', layers: [layers.snowpack_changes, layers.basemap_light]},
     skiing: {lat: 42.5, lng: -100, zoom: 5, name: 'Ski Areas', layers: [layers.ski_areas, layers.snowpack_changes, layers.basemap_light]},
     sites: {lat: 42.5, lng: -100, zoom: 5, name: 'Study Areas', layers: [layers.study_areas, layers.ski_areas, layers.snowpack_changes, layers.basemap_light]},
-    counties: {lat: 42.5, lng: -100, zoom: 5, name: 'Counties', layers: [layers.basemap_light]},
-    bachelor: {lat: 43.99528, lng: -121.68028, zoom: 13, name: 'Bachelor', layers: [layers.basemap_light]},
-    aspen: {lat: 39.17611, lng: -106.82861, zoom: 13, name: 'Aspen', layers: [layers.basemap_light]},
-    forecast: {lat: 42.5, lng: -100, zoom: 5, name: 'Forecast', layers: [layers.basemap_light]},
-    comparison: {lat: 42.5, lng: -100, zoom: 5, name: 'Comparison', layers: [layers.basemap_light]},
+    counties: {lat: 42.5, lng: -100, zoom: 5, name: 'Counties', layers: [layers.study_areas, layers.ski_areas, layers.counties, layers.basemap_light]},
+    bachelor: {lat: 43.99528, lng: -121.25, zoom: 10, name: 'Bachelor', layers: [layers.study_areas, layers.ski_areas, layers.tractsOR, layers.basemap_light]},
+    aspen: {lat: 39.17611, lng: -106.67, zoom: 11, name: 'Aspen', layers: [layers.study_areas, layers.ski_areas, layers.tractsCO, layers.basemap_light]},
+    forecast: {lat: 42.5, lng: -100, zoom: 5, name: 'Forecast', layers: [layers.study_areas, layers.ski_areas, layers.basemap_light]},
+    comparison: {lat: 42.5, lng: -100, zoom: 5, name: 'Comparison', layers: [layers.study_areas, layers.ski_areas, layers.snowpack_changes, layers.counties, layers.basemap_light]},
     end: {lat: 42.5, lng: -100, zoom: 5, name: 'End'}
 };
 
@@ -175,6 +385,9 @@ var time_series_map = L.map('time-series-map', {
     maxZoom: 10,
     maxBounds: bounds,
     fullscreenControl: true,
+    fullscreenControlOptions: {
+        position: 'topleft'
+    },
     zoomControl: true,
     timeDimensionControl: true,
     timeDimensionControlOptions: {
@@ -194,7 +407,7 @@ var time_series_map = L.map('time-series-map', {
         period: "P1MT0H",  // monthly frequency
         timeInterval: startDate.toISOString() + "/P11MT0H"  // monthly frequency
     }
-}).setView([39.4997222185, -113.5024305610014], 4);;
+}).setView([39.4997222185, -113.5024305610014], 4);
 
 layers.basemap_light2.layer.addTo(time_series_map);  // have to add a separate copy of base map layer to side panel map
 
