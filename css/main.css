@@ -543,7 +543,8 @@ header.masthead {
 
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Oswald', sans-serif;
-    color: #ffffff;
+    color: darkblue;
+    text-shadow: 0 0 6px rgba(255, 255, 255, .95);
 }
 
 a {
@@ -1504,9 +1505,9 @@ p a:hover {
 
 h3 {
     font-family: Oswald, sans-serif;
-    color: rgba(255, 255, 255, 0.95);
+    color: darkblue;
     font-size: 2vw;
-    text-shadow: 0 0 6px rgba(0, 0, 0, .95);
+    text-shadow: 0 0 6px rgba(255, 255, 255, .95);
 }
 
 h3 a {
@@ -1531,7 +1532,7 @@ h3 a:hover {
 .fullscreen h4 {
     margin-top: 10%;
     font-family: Oswald, sans-serif;
-    color: rgba(255, 255, 255, 0.95);
+    color: darkblue;
     font-size: 2vw;
     text-shadow: 0 0 6px rgba(0, 0, 0, .95);
 }
@@ -1960,4 +1961,9 @@ html *{
     background-color: #f0f0f0;
     font-size: 0.75em;
     padding: 5px;
+}
+
+.black-text{
+    color: darkblue;
+     text-shadow: 0 0 6px rgba(0, 0, 0, .95);
 }
